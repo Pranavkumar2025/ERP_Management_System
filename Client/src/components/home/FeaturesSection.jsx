@@ -26,26 +26,29 @@ const FeaturesSection = () => {
     ];
 
     return (
-        <div className="py-24 bg-slate-50" id="features">
+        <div className="py-24 bg-white border-b border-slate-100" id="features">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center max-w-3xl mx-auto mb-16">
-                    <h2 className="text-amber-600 font-semibold tracking-wide uppercase text-sm">System Capabilities</h2>
-                    <p className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+                    <h2 className="text-amber-600 font-bold tracking-widest uppercase text-xs mb-3">System Capabilities</h2>
+                    <p className="text-3xl lg:text-4xl font-bold tracking-tighter text-slate-900 leading-tight">
                         Operational Control & Visibility
                     </p>
-                    <p className="mt-4 text-lg text-slate-600">
+                    <p className="mt-4 text-lg text-slate-500 font-light leading-relaxed">
                         A robust suite of management tools designed for maintaining strict oversight of construction operations.
                     </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {features.map((feature) => (
-                        <div key={feature.name} className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:border-amber-200 transition-colors duration-300">
-                            <div className="flex items-center justify-center h-14 w-14 rounded-xl bg-slate-100 text-slate-700 mb-6 border border-slate-200">
-                                <feature.icon className="h-7 w-7" aria-hidden="true" />
+                        <div key={feature.name} className="relative bg-white p-8 border border-slate-200 hover:border-amber-400 transition-colors duration-300 group">
+                            {/* Sharp corner accent */}
+                            <div className="absolute top-0 right-0 w-0 h-0 border-t-[20px] border-r-[20px] border-t-transparent border-r-slate-100 group-hover:border-r-amber-400 transition-all duration-300"></div>
+
+                            <div className="flex items-center justify-center h-12 w-12 bg-slate-50 text-slate-700 mb-6 border border-slate-100 group-hover:bg-amber-50 group-hover:text-amber-600 group-hover:border-amber-100 transition-colors">
+                                <feature.icon className="h-6 w-6" aria-hidden="true" />
                             </div>
-                            <h3 className="text-lg font-bold text-slate-900 mb-3">{feature.name}</h3>
-                            <p className="text-slate-500 leading-relaxed text-sm">{feature.description}</p>
+                            <h3 className="text-lg font-bold text-slate-900 mb-3 tracking-tight">{feature.name}</h3>
+                            <p className="text-slate-500 leading-relaxed text-sm font-light">{feature.description}</p>
                         </div>
                     ))}
                 </div>
