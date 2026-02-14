@@ -5,31 +5,39 @@ import KpiDetailView from './KpiDetailView';
 const KpiCard = ({ title, value, subValues, trendValue, trendType, onClick }) => (
     <div
         onClick={onClick}
-        className="bg-white p-6 rounded-lg border border-slate-200 hover:border-indigo-300 hover:shadow-md hover:shadow-indigo-500/5 cursor-pointer transition-all duration-200 group"
+        className="bg-white p-5 rounded-lg border border-slate-200 hover:border-slate-300 hover:shadow-sm cursor-pointer transition-all duration-200 group relative overflow-hidden"
     >
-        <div className="flex flex-col">
-            <h3 className="text-sm font-medium text-slate-500 group-hover:text-indigo-600 transition-colors">{title}</h3>
-            <div className="mt-2 flex items-baseline gap-3">
-                <span className="text-3xl font-semibold text-slate-900 tracking-tight">{value}</span>
-                <div className={`flex items-center gap-0.5 text-xs font-semibold ${trendType === 'positive' ? 'text-emerald-600' :
-                    trendType === 'negative' ? 'text-rose-600' : 'text-slate-500'
+        <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+            <ArrowUpRight className="h-4 w-4 text-slate-300 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+        </div>
+
+        <div className="flex flex-col h-full justify-between">
+            <div>
+                <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">{title}</h3>
+                <div className="flex items-baseline gap-2 mt-2">
+                    <span className="text-2xl font-bold text-slate-900 tracking-tight leading-none">{value}</span>
+                </div>
+            </div>
+
+            <div className="mt-4 pt-4 border-t border-slate-50 flex items-center justify-between">
+                <div className={`flex items-center gap-1 text-xs font-semibold ${trendType === 'positive' ? 'text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded' :
+                    trendType === 'negative' ? 'text-rose-700 bg-rose-50 px-1.5 py-0.5 rounded' : 'text-slate-600 bg-slate-100 px-1.5 py-0.5 rounded'
                     }`}>
                     {trendType === 'positive' ? <ArrowUpRight className="h-3 w-3" /> : trendType === 'negative' ? <ArrowDownRight className="h-3 w-3" /> : null}
                     {trendValue}
                 </div>
+                {subValues && (
+                    <div className="flex items-center gap-3 text-xs text-slate-400">
+                        {subValues.map((sv, idx) => (
+                            <div key={idx} className="flex items-center gap-1">
+                                <span className="font-medium text-slate-600">{sv.val}</span>
+                                <span>{sv.label}</span>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
-
-        {subValues && (
-            <div className="mt-4 flex items-center gap-4 text-xs">
-                {subValues.map((sv, idx) => (
-                    <div key={idx} className="flex items-center gap-1.5 text-slate-500">
-                        <span className="font-semibold text-slate-700">{sv.val}</span>
-                        <span>{sv.label}</span>
-                    </div>
-                ))}
-            </div>
-        )}
     </div>
 );
 
@@ -37,13 +45,13 @@ const ExecutiveKpiGrid = () => {
     const [selectedKpi, setSelectedKpi] = useState(null);
 
     const kpiData = [
-        // Row 1: High Level
+        // Row 1
         {
             title: 'Active Projects',
             value: '24',
             trendType: 'positive',
-            trendValue: '+2 new',
-            subValues: [{ val: '4', label: 'Completed' }, { val: '92%', label: 'On Schedule' }]
+            trendValue: '+2 this month',
+            subValues: [{ val: '92%', label: 'On Track' }]
         },
         {
             title: 'Total Budget',
@@ -53,54 +61,54 @@ const ExecutiveKpiGrid = () => {
             subValues: [{ val: '₹ 2.1 Cr', label: 'Remaining' }]
         },
         {
-            title: 'YTD Revenue',
+            title: 'Revenue YTD',
             value: '₹ 8.2 Cr',
             trendType: 'positive',
             trendValue: '+18% YoY',
-            subValues: [{ val: '₹ 1.2 Cr', label: 'This Month' }]
+            subValues: [{ val: '₹ 1.2 Cr', label: 'Current' }]
         },
         {
-            title: 'Cash Flow',
-            value: 'Positive',
-            trendType: 'neutral',
-            trendValue: 'Stable',
-            subValues: [{ val: '32 Days', label: 'Runway' }]
+            title: 'Material Value',
+            value: '₹ 4.2 Cr',
+            trendType: 'negative',
+            trendValue: '-5% Stock',
+            subValues: [{ val: 'Low', label: 'Cement' }]
         },
 
-        // Row 2: Operational Health
+        // Row 2
         {
-            title: 'Stock Health',
-            value: '94%',
-            trendType: 'negative',
-            trendValue: '-2%',
-            subValues: [{ val: '4', label: 'Low Stock' }]
+            title: 'Workforce',
+            value: '1,240',
+            trendType: 'positive',
+            trendValue: '+120 Active',
+            subValues: [{ val: '98%', label: 'Attendance' }]
         },
         {
-            title: 'Compliance',
+            title: 'Compliance Score',
             value: '98/100',
             trendType: 'positive',
             trendValue: 'Optimal',
             subValues: [{ val: '0', label: 'Critical' }]
         },
         {
-            title: 'Overdue Payments',
+            title: 'Payables',
             value: '₹ 12.4 L',
             trendType: 'negative',
-            trendValue: 'Needs Attn',
+            trendValue: 'Overdue',
             subValues: [{ val: '3', label: 'Vendors' }]
         },
         {
-            title: 'Active Risks',
-            value: '2',
-            trendType: 'negative',
-            trendValue: 'Critical',
-            subValues: [{ val: 'Site B', label: 'Safety' }]
+            title: 'Safety Incidents',
+            value: '0',
+            trendType: 'neutral',
+            trendValue: '30 Days',
+            subValues: [{ val: '100%', label: 'Safe' }]
         },
     ];
 
     return (
         <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 {kpiData.map((kpi, idx) => (
                     <KpiCard
                         key={idx}
