@@ -1,33 +1,31 @@
-import React from 'react';
-import { Briefcase, DollarSign, TrendingUp, Activity, Package, AlertTriangle, FileCheck, Clock, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import KpiDetailView from './KpiDetailView';
 
-const KpiCard = ({ title, value, subValues, trend, trendValue, icon: Icon, colorClass, trendType }) => (
-    <div className="bg-white p-5 rounded-xl border border-slate-200/60 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_16px_-4px_rgba(0,0,0,0.04)] transition-all duration-200">
-        <div className="flex justify-between items-start mb-4">
-            <div className={`p-2.5 rounded-lg ${colorClass.replace('text-', 'bg-').replace('600', '50')} border border-slate-100`}>
-                <Icon className={`h-5 w-5 ${colorClass}`} />
+const KpiCard = ({ title, value, subValues, trendValue, trendType, onClick }) => (
+    <div
+        onClick={onClick}
+        className="bg-white p-6 rounded-lg border border-slate-200 hover:border-indigo-300 hover:shadow-md hover:shadow-indigo-500/5 cursor-pointer transition-all duration-200 group"
+    >
+        <div className="flex flex-col">
+            <h3 className="text-sm font-medium text-slate-500 group-hover:text-indigo-600 transition-colors">{title}</h3>
+            <div className="mt-2 flex items-baseline gap-3">
+                <span className="text-3xl font-semibold text-slate-900 tracking-tight">{value}</span>
+                <div className={`flex items-center gap-0.5 text-xs font-semibold ${trendType === 'positive' ? 'text-emerald-600' :
+                    trendType === 'negative' ? 'text-rose-600' : 'text-slate-500'
+                    }`}>
+                    {trendType === 'positive' ? <ArrowUpRight className="h-3 w-3" /> : trendType === 'negative' ? <ArrowDownRight className="h-3 w-3" /> : null}
+                    {trendValue}
+                </div>
             </div>
-            <div className={`flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full border ${trendType === 'positive' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
-                    trendType === 'negative' ? 'bg-rose-50 text-rose-600 border-rose-100' : 'bg-slate-50 text-slate-600 border-slate-100'
-                }`}>
-                {trendType === 'positive' ? <ArrowUpRight className="h-3 w-3" /> : trendType === 'negative' ? <ArrowDownRight className="h-3 w-3" /> : null}
-                {trendValue}
-            </div>
-        </div>
-
-        <div>
-            <p className="text-slate-500 text-[11px] font-bold uppercase tracking-wider mb-1">{title}</p>
-            <h3 className="text-2xl font-bold text-slate-800 tracking-tight">{value}</h3>
         </div>
 
         {subValues && (
-            <div className="mt-4 pt-3 border-t border-slate-50 flex items-center gap-3">
+            <div className="mt-4 flex items-center gap-4 text-xs">
                 {subValues.map((sv, idx) => (
-                    <div key={idx} className="flex items-center gap-1.5">
-                        <span className="h-1.5 w-1.5 rounded-full bg-slate-300"></span>
-                        <span className="text-xs text-slate-500">
-                            <span className="font-semibold text-slate-700">{sv.val}</span> {sv.label}
-                        </span>
+                    <div key={idx} className="flex items-center gap-1.5 text-slate-500">
+                        <span className="font-semibold text-slate-700">{sv.val}</span>
+                        <span>{sv.label}</span>
                     </div>
                 ))}
             </div>
@@ -36,6 +34,8 @@ const KpiCard = ({ title, value, subValues, trend, trendValue, icon: Icon, color
 );
 
 const ExecutiveKpiGrid = () => {
+    const [selectedKpi, setSelectedKpi] = useState(null);
+
     const kpiData = [
         // Row 1: High Level
         {
@@ -43,8 +43,6 @@ const ExecutiveKpiGrid = () => {
             value: '24',
             trendType: 'positive',
             trendValue: '+2 new',
-            icon: Briefcase,
-            colorClass: 'text-blue-600',
             subValues: [{ val: '4', label: 'Completed' }, { val: '92%', label: 'On Schedule' }]
         },
         {
@@ -52,8 +50,6 @@ const ExecutiveKpiGrid = () => {
             value: '₹ 14.5 Cr',
             trendType: 'positive',
             trendValue: '12% Utilized',
-            icon: DollarSign,
-            colorClass: 'text-indigo-600',
             subValues: [{ val: '₹ 2.1 Cr', label: 'Remaining' }]
         },
         {
@@ -61,8 +57,6 @@ const ExecutiveKpiGrid = () => {
             value: '₹ 8.2 Cr',
             trendType: 'positive',
             trendValue: '+18% YoY',
-            icon: TrendingUp,
-            colorClass: 'text-emerald-600',
             subValues: [{ val: '₹ 1.2 Cr', label: 'This Month' }]
         },
         {
@@ -70,8 +64,6 @@ const ExecutiveKpiGrid = () => {
             value: 'Positive',
             trendType: 'neutral',
             trendValue: 'Stable',
-            icon: Activity,
-            colorClass: 'text-cyan-600',
             subValues: [{ val: '32 Days', label: 'Runway' }]
         },
 
@@ -80,46 +72,51 @@ const ExecutiveKpiGrid = () => {
             title: 'Stock Health',
             value: '94%',
             trendType: 'negative',
-            trendValue: '-2% vs last',
-            icon: Package,
-            colorClass: 'text-amber-600',
-            subValues: [{ val: '4', label: 'Low Stock Items' }]
+            trendValue: '-2%',
+            subValues: [{ val: '4', label: 'Low Stock' }]
         },
         {
             title: 'Compliance',
             value: '98/100',
             trendType: 'positive',
             trendValue: 'Optimal',
-            icon: FileCheck,
-            colorClass: 'text-purple-600',
-            subValues: [{ val: '0', label: 'Critical Issues' }]
+            subValues: [{ val: '0', label: 'Critical' }]
         },
         {
-            title: 'Overdue',
+            title: 'Overdue Payments',
             value: '₹ 12.4 L',
             trendType: 'negative',
             trendValue: 'Needs Attn',
-            icon: Clock,
-            colorClass: 'text-rose-600',
-            subValues: [{ val: '3', label: 'Vendors Affected' }]
+            subValues: [{ val: '3', label: 'Vendors' }]
         },
         {
-            title: 'Risk Alerts',
-            value: '2 Critical',
+            title: 'Active Risks',
+            value: '2',
             trendType: 'negative',
-            trendValue: 'High Priority',
-            icon: AlertTriangle,
-            colorClass: 'text-orange-600',
-            subValues: [{ val: 'Site B', label: 'Safety Incident' }]
+            trendValue: 'Critical',
+            subValues: [{ val: 'Site B', label: 'Safety' }]
         },
     ];
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            {kpiData.map((kpi, idx) => (
-                <KpiCard key={idx} {...kpi} />
-            ))}
-        </div>
+        <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                {kpiData.map((kpi, idx) => (
+                    <KpiCard
+                        key={idx}
+                        {...kpi}
+                        onClick={() => setSelectedKpi(kpi)}
+                    />
+                ))}
+            </div>
+
+            {selectedKpi && (
+                <KpiDetailView
+                    title={selectedKpi.title}
+                    onClose={() => setSelectedKpi(null)}
+                />
+            )}
+        </>
     );
 };
 

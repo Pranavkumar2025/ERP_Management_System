@@ -1,41 +1,43 @@
 import React from 'react';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import ExecutiveKpiGrid from '../../components/dashboard/overview/ExecutiveKpiGrid';
-import RiskAlertBanner from '../../components/dashboard/overview/RiskAlertBanner';
 import ProjectPortfolioHealth from '../../components/dashboard/overview/ProjectPortfolioHealth';
 import FinancialOverviewPanel from '../../components/dashboard/overview/FinancialOverviewPanel';
 import MaterialHealthPanel from '../../components/dashboard/overview/MaterialHealthPanel';
 import ComplianceOverviewPanel from '../../components/dashboard/overview/ComplianceOverviewPanel';
 import ExecutiveActivityTimeline from '../../components/dashboard/overview/ExecutiveActivityTimeline';
-import { Calendar, Download } from 'lucide-react';
+import { Calendar, Download, ChevronRight } from 'lucide-react';
 
 const OverviewDashboard = () => {
     return (
         <DashboardLayout>
             <div className="space-y-6 max-w-[1600px] mx-auto pb-10">
                 {/* Header Section */}
-                <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 bg-white p-6 rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-slate-100">
+                {/* Header Section */}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
                     <div>
-                        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Command Center</h1>
-                        <p className="text-sm text-slate-500 mt-1">Executive Monitoring & Strategic Insights</p>
+                        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Executive Overview</h1>
+                        <p className="text-sm text-slate-500 font-medium mt-1">Enterprise Operations Center</p>
                     </div>
-                    <div className="flex items-center space-x-3">
-                        <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-600 text-sm font-bold hover:bg-slate-50 transition-colors shadow-sm">
-                            <Download className="h-4 w-4" />
-                            Export Report
-                        </button>
-                        <div className="flex items-center space-x-2 bg-slate-900 text-white px-4 py-2 rounded-lg border border-slate-900 shadow-md">
-                            <Calendar className="h-4 w-4 text-slate-300" />
-                            <span className="text-sm font-bold">Today, Oct 24</span>
+
+                    <div className="flex items-center bg-white rounded-lg border border-slate-200 shadow-sm p-1">
+                        <div className="flex items-center gap-2 px-3 py-1.5 border-r border-slate-100">
+                            <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                            <span className="text-xs font-bold text-slate-700">System Nominal</span>
                         </div>
+                        <div className="flex items-center gap-2 px-3 py-1.5 border-r border-slate-100">
+                            <Calendar className="h-3.5 w-3.5 text-slate-400" />
+                            <span className="text-xs font-semibold text-slate-600">Oct 24, 2026</span>
+                        </div>
+                        <button className="px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-indigo-600 transition-colors flex items-center gap-2">
+                            <Download className="h-3.5 w-3.5" />
+                            <span>Export</span>
+                        </button>
                     </div>
                 </div>
 
                 {/* Section 1: KPI Grid */}
                 <ExecutiveKpiGrid />
-
-                {/* Section 2: Alerts */}
-                <RiskAlertBanner />
 
                 {/* Section 3 & 4: Strategic Grid Top (Finance & Projects) */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
