@@ -7,6 +7,7 @@ import AdminLogin from '../pages/auth/AdminLogin';
 import ComplianceDashboard from '../pages/dashboards/ComplianceDashboard';
 import FinanceDashboard from '../pages/dashboards/FinanceDashboard';
 import ManagementDashboard from '../pages/dashboards/ManagementDashboard';
+import OverviewDashboard from '../pages/dashboards/OverviewDashboard';
 import ProjectDashboard from '../pages/dashboards/ProjectDashboard';
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/admin/login" element={<AdminLogin />} />
 
         {/* Dashboard Routes */}
+        <Route path="/dashboard/overview" element={<OverviewDashboard />} />
         <Route path="/dashboard/management" element={<ManagementDashboard />} />
         <Route path="/dashboard/finance" element={<FinanceDashboard />} />
         <Route path="/dashboard/project" element={<ProjectDashboard />} />

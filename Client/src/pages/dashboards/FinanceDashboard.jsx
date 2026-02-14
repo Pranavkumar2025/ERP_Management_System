@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FinanceLayout from '../../components/layout/FinanceLayout';
+import DashboardLayout from '../../components/layout/DashboardLayout';
 import FinanceKPISection from '../../components/dashboard/finance/FinanceKPISection';
 import InvoiceTable from '../../components/dashboard/finance/InvoiceTable';
 import PaymentsPanel from '../../components/dashboard/finance/PaymentsPanel';
@@ -10,7 +10,7 @@ import { Download, Calendar, Bell } from 'lucide-react';
 
 const FinanceDashboard = () => {
     return (
-        <FinanceLayout>
+        <DashboardLayout>
             <div className="space-y-6 max-w-[1600px] mx-auto">
 
                 {/* Top Header */}
@@ -78,7 +78,7 @@ const FinanceDashboard = () => {
                     </div>
                 </div>
             </div>
-        </FinanceLayout>
+        </DashboardLayout>
     );
 };
 

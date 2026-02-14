@@ -35,8 +35,8 @@ const Sidebar = ({ isOpen, setIsOpen, role = 'management_admin' }) => {
 
     // Management Admin Navigation (Executive View)
     const adminNavigation = [
-        { name: 'Overview', href: '/dashboard/management', icon: LayoutDashboard },
-        { name: 'Materials', href: '/dashboard/materials', icon: Package },
+        { name: 'Overview', href: '/dashboard/overview', icon: LayoutDashboard },
+        { name: 'Materials', href: '/dashboard/management', icon: Package },
         { name: 'Projects', href: '/dashboard/projects', icon: Briefcase },
         { name: 'Finance', href: '/dashboard/finance', icon: PieChart },
         { name: 'Compliance', href: '/dashboard/compliance', icon: FileCheck },
